@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Picture Gallery{% endblock %}
+
+{%block contents%}
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for picture in user_picts %}
+        <!-- 画像のサムネイルを表示するブロック -->
+        <!-- 列要素を配置 -->
+        <div class="col">          
+          <div class="card shadow-sm">
+            <!-- サムネイルの表示部 -->
+            <!-- svgタグをimgタグに変更 -->
+            <!-- picture.image_pathを引数にしてpictapp.image_fileを呼び出して
+            imagesフォルダー内の画像ファイルのパスを取得-->
+            <img
+              src="{{ url_for('pictapp.image_file', filename=picture.image_path) }}"
+              alt="画像"
+              class="bd-placeholder-img card-img-top"
+              width="100%" height="225"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img" aria-label="Placeholder: Thumbnail"
+              preserveAspectRatio="xMidYMid slice"
+              focusable="false">
+              <title>Placeholder</title>
+              <rect width="100%" height="100%" fill="#55595c"/>
+              <!-- <text>~</text>を削除 -->
+            <!-- サムネイル下の表示ブロック -->
+            <div class="card-body">
+              <!-- 投稿画像のタイトルを出力 -->
+              <p class="card-text">{{picture.title}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button"
+                          class="btn btn-sm btn-outline-secondary">View</button>
+                  <!-- ボタンのテキストを投稿したユーザー名にする -->
+                  <button type="button"
+                          class="btn btn-sm btn-outline-secondary">
+                          {{picture.username}}</button>
+                </div>
+                <!-- 投稿したユーザー名を表示 -->
+                <small class="text-muted">{{picture.username}}</small>
+              </div>
+            </div>
+          </div>
+          <!-- 列要素以下のタグまで -->
+        </div>
+        {% endfor %}
+        <!-- 行要素以下のタグまで -->
+      </div>
+
+      <!-- Pager-->
+      <div class="d-flex justify-content-end mb-4">
+        {{ pagination.info }}
+      </div>
+      <div class="d-flex justify-content-end mb-4">
+        {{ pagination.links }}
+      </div>
+    </div>
+  </div>
+
+{%endblock%}
